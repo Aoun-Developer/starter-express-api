@@ -1,0 +1,94 @@
+swagger: "2.0"
+info:
+  title: TODO APP swagger Docs
+  version: "1.0.0"
+  description: Swagger UI Docs for Project (TODO APP)
+
+  servers:
+    -url: "http://localhost:1000/api-docs/"
+    description: This is Local Server
+host: localhost:1000
+basePath: /
+schemes:
+  - http
+  - https
+
+securityDefinitions:
+  # X-API-Key: abcdef12345
+  APIKeyHeader:
+    type: apiKey
+    in: header
+    name: X-API-Key
+  # /path?api_key=abcdef12345
+  APIKeyQueryParam:
+    type: apiKey
+    in: query
+    name: api_key
+
+security:
+  - APIKeyHeader: []
+paths:
+  # Post api to login a user response => web token
+  /api/auth/login:
+    post:
+      summary: Login A User
+      security: []
+      tags:
+        - Accounts
+      description: API to validate and login a user with jwt
+      produce:
+        - applicaition/json
+      cosume:
+        - applicaition/json
+      parameters:
+        - in: body
+          name: Login User
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+              password:
+                type: string
+      responses:
+        200:
+          description: User Logged In
+          schemes:
+            type: object
+            example: Json web token
+        400:
+          description: Bad Request
+        500:
+          description: Internal Server Error
+
+  # Post api to create a note response => note object
+  /api/notes/addnote:
+    post:
+      summary: Create A Note
+      tags:
+        - Notes
+      description: API to create new note
+      security: []
+      parameters:
+        - in: body
+          name: Create Task
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              description:
+                type: string
+              tags:
+                type: string
+      responses:
+        200:
+          description: New Note Created
+          schemes:
+            type: object
+            example: Json web token
+        400:
+          description: Bad Request
+        500:
+          description: Internal Server Error
